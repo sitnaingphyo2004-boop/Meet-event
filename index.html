@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/meet-event-registration.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="my">
 <head>
@@ -14,8 +15,86 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'Noto Sans Myanmar',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
   body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(0,212,255,0.04) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(124,58,237,0.04) 0%,transparent 50%);pointer-events:none;z-index:0;}
-  .container{max-width:960px;margin:0 auto;padding:40px 20px;position:relative;z-index:1;}
-  .header{text-align:center;margin-bottom:48px;}
+  .container{max-width:960px;margin:0 auto;padding:32px 20px;position:relative;z-index:1;}
+
+  /* ── EVENT INFO BANNER ── */
+  .event-info-banner {
+    background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(124,58,237,0.12) 100%);
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.6s ease both;
+  }
+  .event-info-banner::before {
+    content: '';
+    position: absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--gold));
+  }
+  .event-info-banner::after {
+    content: '';
+    position: absolute; top:-60px; right:-60px;
+    width:200px; height:200px;
+    background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%);
+    pointer-events:none;
+  }
+  .eib-title {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eib-title::before { content:''; display:inline-block; width:6px; height:6px; background:var(--accent); border-radius:50%; animation:pulse 1.5s infinite; }
+  .eib-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media(max-width:600px){ .eib-grid{ grid-template-columns:1fr; gap:12px; } }
+  .eib-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .eib-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .eib-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .eib-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .eib-value .highlight {
+    color: var(--accent);
+  }
+  .eib-value .highlight-gold {
+    color: var(--gold);
+  }
+
+  /* ── HEADER ── */
+  .header{text-align:center;margin-bottom:36px;}
   .event-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:100px;padding:6px 16px;font-size:12px;color:var(--accent);font-family:'IBM Plex Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;animation:fadeDown 0.6s ease;}
   .event-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 1.5s infinite;}
   @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
@@ -23,8 +102,10 @@
   .subtitle{color:var(--muted);font-size:14px;animation:fadeDown 0.6s ease 0.2s both;}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
   .layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
   @media(max-width:680px){.layout{grid-template-columns:1fr}}
+
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;animation:fadeUp 0.6s ease 0.3s both;position:relative;overflow:hidden;}
   .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
   .card-title{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:8px;margin-bottom:24px;text-transform:uppercase;letter-spacing:0.06em;}
@@ -43,14 +124,12 @@
   .submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
   .success-banner{display:none;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:14px 18px;margin-top:16px;font-size:14px;color:#34d399;text-align:center;line-height:1.6;}
 
-  /* LIST PANEL */
   .list-panel{animation:fadeUp 0.6s ease 0.45s both;}
   .list-header{background:var(--card);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
   .list-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent2),var(--accent));}
   .list-title{font-family:'IBM Plex Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent);}
   .count-badge{background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.3);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:3px 10px;border-radius:100px;}
 
-  /* LOCK */
   .lock-overlay{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 16px 16px;padding:40px 24px;text-align:center;}
   .lock-icon{font-size:32px;margin-bottom:16px;}
   .lock-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
@@ -91,7 +170,6 @@
   .lock-again-btn{margin-top:8px;width:100%;padding:8px;background:none;border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:rgba(239,68,68,0.5);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.05em;display:none;}
   .lock-again-btn:hover{border-color:var(--danger);color:var(--danger);}
 
-  /* loading spinner */
   .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
   @keyframes spin{to{transform:rotate(360deg)}}
 
@@ -111,11 +189,40 @@
   .modal-row:last-child{border-bottom:none;}
   .modal-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;width:90px;flex-shrink:0;padding-top:1px;}
   .modal-value{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
-  .modal-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
 </style>
 </head>
 <body>
 <div class="container">
+
+  <!-- ── EVENT INFO BANNER ── -->
+  <div class="event-info-banner">
+    <div class="eib-title">Event Details</div>
+    <div class="eib-grid">
+      <div class="eib-item">
+        <div class="eib-icon">📍</div>
+        <div>
+          <div class="eib-label">Location</div>
+          <div class="eib-value">Rangoona<br><span style="font-size:12px;color:var(--muted);font-weight:400">Thai & Burmese Food And Beverage</span></div>
+        </div>
+      </div>
+      <div class="eib-item">
+        <div class="eib-icon">📅</div>
+        <div>
+          <div class="eib-label">Date</div>
+          <div class="eib-value"><span class="highlight-gold">07 June 2026</span><br><span style="font-size:12px;color:var(--muted);font-weight:400">Sunday</span></div>
+        </div>
+      </div>
+      <div class="eib-item">
+        <div class="eib-icon">🕔</div>
+        <div>
+          <div class="eib-label">Time</div>
+          <div class="eib-value"><span class="highlight">5:00 PM</span><span style="color:var(--muted);font-weight:400"> — </span><span class="highlight">9:30 PM</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HEADER ── -->
   <div class="header">
     <div class="event-badge">✦ Live Registration</div>
     <h1>Meet Event<br>စာရင်းသွင်းရန်</h1>
@@ -123,6 +230,7 @@
   </div>
 
   <div class="layout">
+    <!-- PUBLIC FORM -->
     <div class="card">
       <div class="card-title"><span>✦</span> Registration Form</div>
       <div class="field">
@@ -167,12 +275,12 @@
       <div class="success-banner" id="success-banner"></div>
     </div>
 
+    <!-- ADMIN LIST -->
     <div class="list-panel">
       <div class="list-header">
         <div class="list-title">✦ Participants</div>
         <div class="count-badge" id="count-badge">— ယောက်</div>
       </div>
-
       <div class="lock-overlay" id="lock-overlay">
         <div class="lock-icon">🔒</div>
         <div class="lock-label">Admin သာ ကြည့်ရှုနိုင်သည်</div>
@@ -182,9 +290,7 @@
         </div>
         <div class="lock-error" id="lock-error"></div>
       </div>
-
       <div class="list-body" id="list-body"></div>
-
       <div class="export-bar" id="export-bar">
         <button class="export-btn" onclick="exportCSV()">⬇ CSV</button>
         <button class="export-btn" onclick="copyAll()">⎘ Copy</button>
@@ -196,7 +302,6 @@
 </div>
 
 <div class="toast" id="toast"></div>
-
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect()">✕</button>
@@ -219,8 +324,7 @@
     projectId: "meet-event-3c234",
     storageBucket: "meet-event-3c234.firebasestorage.app",
     messagingSenderId: "1057488937023",
-    appId: "1:1057488937023:web:489becc3a0f89a18a1588a",
-    measurementId: "G-DFGMHNDR9E"
+    appId: "1:1057488937023:web:489becc3a0f89a18a1588a"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -230,7 +334,6 @@
   const PASS = 'Sitnaing2026';
   const SESSION_KEY = 'meet_unlocked';
 
-  // ── COUNT (always visible) ──
   async function refreshCount() {
     try {
       const snap = await getCountFromServer(col);
@@ -239,7 +342,6 @@
   }
   refreshCount();
 
-  // ── UNLOCK / LOCK ──
   window.unlock = function() {
     const val = document.getElementById('lock-pw').value;
     if (val === PASS) {
@@ -264,7 +366,6 @@
     document.getElementById('list-body').style.display = 'block';
     document.getElementById('export-bar').style.display = 'flex';
     document.getElementById('lock-again-btn').style.display = 'block';
-    // Real-time listener
     const q = query(col, orderBy("ts", "desc"));
     unsubscribe = onSnapshot(q, snap => {
       participants = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -287,14 +388,12 @@
 
   if (sessionStorage.getItem(SESSION_KEY) === '1') showList();
 
-  // ── TOAST ──
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2800);
   }
 
-  // ── ADD ──
   let participants = [];
 
   window.addParticipant = async function() {
@@ -323,11 +422,9 @@
         time: new Date().toLocaleString('en-GB'),
         ts: Date.now()
       });
-
       ['inp-name','inp-age','inp-phone','inp-condition','inp-job','inp-purpose','inp-note']
         .forEach(id => document.getElementById(id).value = '');
       document.getElementById('inp-prefix').value = '+95';
-
       const banner = document.getElementById('success-banner');
       banner.style.display = 'block';
       banner.textContent = `✓ ${name} — စာရင်းသွင်းပြီးပါပြီ။ ကျေးဇူးတင်ပါသည်!`;
@@ -336,12 +433,10 @@
     } catch(e) {
       showToast('⚠ Error: ' + e.message);
     }
-
     btn.disabled = false;
     btn.innerHTML = '+ စာရင်းသွင်းမည်';
   };
 
-  // ── RENDER ──
   function getInitials(n) { return n.trim().charAt(0).toUpperCase(); }
 
   function renderList() {
@@ -350,7 +445,7 @@
       body.innerHTML = '<div class="empty-state"><div class="empty-icon">○</div><div class="empty-text">No participants yet</div></div>';
       return;
     }
-    body.innerHTML = participants.map((p, i) => `
+    body.innerHTML = participants.map((p,i) => `
       <div class="participant" onclick="showDetail('${p.id}')">
         <div class="p-top">
           <div class="p-left">
@@ -358,7 +453,7 @@
             <div><div class="p-name">${p.name}</div><div class="p-age">${p.age} နှစ်</div></div>
           </div>
           <div style="display:flex;align-items:center;gap:8px">
-            <div class="p-num">#${String(participants.length - i).padStart(3,'0')}</div>
+            <div class="p-num">#${String(participants.length-i).padStart(3,'0')}</div>
             <button class="del-btn" onclick="event.stopPropagation();deleteP('${p.id}')">✕</button>
           </div>
         </div>
@@ -366,11 +461,10 @@
           <span class="tag tag-job">${p.job}</span>
           <span class="tag tag-purpose">${p.purpose}</span>
         </div>
-        ${p.note && p.note !== '—' ? `<div class="p-note">${p.note}</div>` : ''}
-      </div>`).join('');
+        ${p.note&&p.note!=='—'?`<div class="p-note">${p.note}</div>`:''}`
+    ).join('');
   }
 
-  // ── DELETE ──
   window.deleteP = async function(id) {
     if (!confirm('ဖျက်မှာသေချာပါသလား?')) return;
     try {
@@ -379,9 +473,8 @@
     } catch(e) { showToast('⚠ ' + e.message); }
   };
 
-  // ── DETAIL MODAL ──
   window.showDetail = function(id) {
-    const p = participants.find(x => x.id === id); if (!p) return;
+    const p = participants.find(x=>x.id===id); if(!p) return;
     document.getElementById('m-avatar').textContent = getInitials(p.name);
     document.getElementById('m-name').textContent = p.name;
     document.getElementById('m-num').textContent = `${p.prefix} ${p.phone}  ·  ${p.time}`;
@@ -391,7 +484,7 @@
       <div class="modal-row"><div class="modal-label">ဝါဒနာ</div><div class="modal-value">${p.condition}</div></div>
       <div class="modal-row"><div class="modal-label">လုပ်ငန်း</div><div class="modal-value">${p.job}</div></div>
       <div class="modal-row"><div class="modal-label">ရည်ရွယ်ချက်</div><div class="modal-value">${p.purpose}</div></div>
-      ${p.note && p.note !== '—' ? `<div class="modal-row"><div class="modal-label">မှတ်ချက်</div><div class="modal-value">${p.note}</div></div>` : ''}
+      ${p.note&&p.note!=='—'?`<div class="modal-row"><div class="modal-label">မှတ်ချက်</div><div class="modal-value">${p.note}</div></div>`:''}
       <div class="modal-row"><div class="modal-label">ဝင်ချိန်</div><div class="modal-value" style="font-size:12px;color:var(--muted)">${p.time}</div></div>`;
     document.getElementById('modal-overlay').classList.add('open');
   };
@@ -399,33 +492,34 @@
   window.closeModal = function(e) { if(e.target===document.getElementById('modal-overlay')) closeModalDirect(); };
   window.closeModalDirect = function() { document.getElementById('modal-overlay').classList.remove('open'); };
 
-  // ── EXPORT ──
   window.exportCSV = function() {
-    if (!participants.length) { showToast('⚠ Data မရှိသေး'); return; }
-    const h = ['No','Name','Age','Phone','Condition','Job','Purpose','Note','Time'];
-    const rows = participants.map((p,i) => [participants.length-i, p.name, p.age, `${p.prefix}${p.phone}`, p.condition, p.job, p.purpose, p.note||'—', p.time]);
-    const csv = [h,...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'}));
-    a.download = `meet-participants-${Date.now()}.csv`; a.click();
+    if(!participants.length){showToast('⚠ Data မရှိသေး');return;}
+    const h=['No','Name','Age','Phone','Condition','Job','Purpose','Note','Time'];
+    const rows=participants.map((p,i)=>[participants.length-i,p.name,p.age,`${p.prefix}${p.phone}`,p.condition,p.job,p.purpose,p.note||'—',p.time]);
+    const csv=[h,...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));
+    a.download=`meet-participants-${Date.now()}.csv`; a.click();
     showToast('✓ CSV ထုတ်ပြီးပါပြီ');
   };
 
   window.copyAll = function() {
-    if (!participants.length) { showToast('⚠ Data မရှိသေး'); return; }
-    const lines = participants.map((p,i) => `[${participants.length-i}] ${p.name} (${p.age}နှစ်) | ${p.prefix}${p.phone} | ${p.job} | ${p.purpose}`).join('\n');
-    navigator.clipboard.writeText(lines).then(() => showToast('✓ Clipboard သို့ ကူးပြီးပါပြီ'));
+    if(!participants.length){showToast('⚠ Data မရှိသေး');return;}
+    const lines=participants.map((p,i)=>`[${participants.length-i}] ${p.name} (${p.age}နှစ်) | ${p.prefix}${p.phone} | ${p.job} | ${p.purpose}`).join('\n');
+    navigator.clipboard.writeText(lines).then(()=>showToast('✓ Clipboard သို့ ကူးပြီးပါပြီ'));
   };
 
   window.clearAll = async function() {
-    if (!participants.length) return;
-    if (!confirm('စာရင်းအားလုံး ဖျက်မှာသေချာပါသလား?')) return;
+    if(!participants.length) return;
+    if(!confirm('စာရင်းအားလုံး ဖျက်မှာသေချာပါသလား?')) return;
     try {
-      const snap = await getDocs(col);
-      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, "participants", d.id))));
+      const snap=await getDocs(col);
+      await Promise.all(snap.docs.map(d=>deleteDoc(doc(db,"participants",d.id))));
       showToast('✕ Clear ပြီးပါပြီ');
-    } catch(e) { showToast('⚠ ' + e.message); }
+    } catch(e){showToast('⚠ '+e.message);}
   };
 </script>
 </body>
 </html>
+HTMLEOF
+echo "done"
