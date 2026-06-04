@@ -23,40 +23,6 @@
   .subtitle{color:var(--muted);font-size:14px;animation:fadeDown 0.6s ease 0.2s both;}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  
-  /* NEW EVENT INFO STYLE */
-  .event-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-    max-width: 700px;
-    margin: 28px auto 0 auto;
-    animation: fadeDown 0.6s ease 0.15s both;
-  }
-  .info-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    text-align: left;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .info-card::before {
-    content: ''; position: absolute; left: 0; top: 25%; bottom: 25%; width: 3px; background: var(--accent); border-radius: 0 4px 4px 0;
-  }
-  .info-card.loc-card::before {
-    background: var(--accent2);
-  }
-  .info-label {
-    display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 4px;
-  }
-  .info-val {
-    display: block; font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4;
-  }
-
   .layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
   @media(max-width:680px){.layout{grid-template-columns:1fr}}
   .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;animation:fadeUp 0.6s ease 0.3s both;position:relative;overflow:hidden;}
@@ -113,4 +79,353 @@
   .p-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);opacity:0.7;}
   .p-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;}
   .tag{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace;}
-  .tag-job{background:rgba(124
+  .tag-job{background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:#a78bfa;}
+  .tag-purpose{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);color:#34d399;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .del-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 6px;border-radius:4px;font-size:14px;transition:color 0.2s,background 0.2s;}
+  .del-btn:hover{color:var(--danger);background:rgba(239,68,68,0.1);}
+  .p-note{font-size:11px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid rgba(30,45,69,0.5);font-style:italic;}
+
+  .export-bar{margin-top:12px;display:none;gap:8px;}
+  .export-btn{flex:1;padding:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.05em;}
+  .export-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,0.05);}
+  .lock-again-btn{margin-top:8px;width:100%;padding:8px;background:none;border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:rgba(239,68,68,0.5);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.05em;display:none;}
+  .lock-again-btn:hover{border-color:var(--danger);color:var(--danger);}
+
+  /* loading spinner */
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--success);color:white;padding:12px 20px;border-radius:10px;font-size:13px;font-family:'IBM Plex Mono',monospace;transform:translateY(80px);opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;}
+  .toast.show{transform:translateY(0);opacity:1;}
+
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+  .modal-overlay.open{opacity:1;pointer-events:all;}
+  .modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;max-width:420px;width:100%;position:relative;transform:scale(0.9);transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+  .modal-overlay.open .modal{transform:scale(1);}
+  .modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:20px 20px 0 0;}
+  .modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:none;color:var(--muted);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+  .modal-close:hover{color:var(--text);background:rgba(255,255,255,0.1);}
+  .modal-avatar{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:white;font-family:'IBM Plex Mono',monospace;margin-bottom:16px;}
+  .modal-name{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .modal-row{display:flex;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start;gap:12px;}
+  .modal-row:last-child{border-bottom:none;}
+  .modal-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;width:90px;flex-shrink:0;padding-top:1px;}
+  .modal-value{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+  .modal-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="event-badge">✦ Live Registration</div>
+    <h1>Meet Event<br>စာရင်းသွင်းရန်</h1>
+    <div class="subtitle">အောက်ပါ ပုံစံကို ဖြည့်စွက်ပြီး စာရင်းသွင်းပါ</div>
+  </div>
+
+  <div class="layout">
+    <div class="card">
+      <div class="card-title"><span>✦</span> Registration Form</div>
+      <div class="field">
+        <label>နာမည် <span class="req">*</span></label>
+        <input type="text" id="inp-name" placeholder="အမည်အပြည့်အစုံ">
+      </div>
+      <div class="field">
+        <label>အသက် <span class="req">*</span></label>
+        <input type="number" id="inp-age" placeholder="နှစ်" min="10" max="99">
+      </div>
+      <div class="field">
+        <label>ဖုန်းနံပါတ် <span class="req">*</span></label>
+        <div class="phone-row">
+          <select id="inp-prefix" class="phone-prefix">
+            <option value="+95">🇲🇲 +95</option>
+            <option value="+66">🇹🇭 +66</option>
+            <option value="+81">🇯🇵 +81</option>
+            <option value="+60">🇲🇾 +60</option>
+            <option value="+65">🇸🇬 +65</option>
+            <option value="+1">🇺🇸 +1</option>
+          </select>
+          <input type="tel" id="inp-phone" placeholder="09xxxxxxxxx" style="flex:1">
+        </div>
+      </div>
+      <div class="field">
+        <label>ဝါဒနာ / ကျန်းမာရေး အခြေအနေ</label>
+        <input type="text" id="inp-condition" placeholder="မရှိပါက ဗလာထားနိုင်">
+      </div>
+      <div class="field">
+        <label>လက်ရှိ လုပ်ကိုင်နေတာ <span class="req">*</span></label>
+        <input type="text" id="inp-job" placeholder="ဥပမာ - ကုန်သည် / ကျောင်းဆရာ / လုပ်သား">
+      </div>
+      <div class="field">
+        <label>Join ရခြင်းရဲ့ ရည်ရွယ်ချက် <span class="req">*</span></label>
+        <textarea id="inp-purpose" placeholder="ဘာကြောင့် ပါဝင်ချင်သည်ဆိုသည်ကို ရှင်းပြပါ..."></textarea>
+      </div>
+      <div class="field">
+        <label>မှတ်ချက် (ထပ်ဆောင်း)</label>
+        <input type="text" id="inp-note" placeholder="အခြားပြောချင်သည့် အချက်များ...">
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="addParticipant()">+ စာရင်းသွင်းမည်</button>
+      <div class="success-banner" id="success-banner"></div>
+    </div>
+
+    <div class="list-panel">
+      <div class="list-header">
+        <div class="list-title">✦ Participants</div>
+        <div class="count-badge" id="count-badge">— ယောက်</div>
+      </div>
+
+      <div class="lock-overlay" id="lock-overlay">
+        <div class="lock-icon">🔒</div>
+        <div class="lock-label">Admin သာ ကြည့်ရှုနိုင်သည်</div>
+        <div class="lock-input-row">
+          <input type="password" class="lock-input" id="lock-pw" placeholder="Password" onkeydown="if(event.key==='Enter')unlock()">
+          <button class="lock-btn" onclick="unlock()">ဖွင့်</button>
+        </div>
+        <div class="lock-error" id="lock-error"></div>
+      </div>
+
+      <div class="list-body" id="list-body"></div>
+
+      <div class="export-bar" id="export-bar">
+        <button class="export-btn" onclick="exportCSV()">⬇ CSV</button>
+        <button class="export-btn" onclick="copyAll()">⎘ Copy</button>
+        <button class="export-btn" onclick="clearAll()" style="color:#ef444488;border-color:#ef444422">✕ Clear</button>
+      </div>
+      <button class="lock-again-btn" id="lock-again-btn" onclick="lockList()">🔒 Lock</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-avatar" id="m-avatar"></div>
+    <div class="modal-name" id="m-name"></div>
+    <div class="modal-num" id="m-num"></div>
+    <br>
+    <div id="m-rows"></div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, orderBy, getCountFromServer }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAGqLZXeuoB3s770Po45gVxNZmck8b64eI",
+    authDomain: "meet-event-3c234.firebaseapp.com",
+    projectId: "meet-event-3c234",
+    storageBucket: "meet-event-3c234.firebasestorage.app",
+    messagingSenderId: "1057488937023",
+    appId: "1:1057488937023:web:489becc3a0f89a18a1588a",
+    measurementId: "G-DFGMHNDR9E"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+  const col = collection(db, "participants");
+
+  const PASS = 'Sitnaing2026';
+  const SESSION_KEY = 'meet_unlocked';
+
+  // ── COUNT (always visible) ──
+  async function refreshCount() {
+    try {
+      const snap = await getCountFromServer(col);
+      document.getElementById('count-badge').textContent = snap.data().count + ' ယောက်';
+    } catch(e) {}
+  }
+  refreshCount();
+
+  // ── UNLOCK / LOCK ──
+  window.unlock = function() {
+    const val = document.getElementById('lock-pw').value;
+    if (val === PASS) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      showList();
+    } else {
+      const row = document.querySelector('.lock-input-row');
+      const err = document.getElementById('lock-error');
+      err.textContent = '✕ Password မှားနေသည်';
+      row.style.animation = 'none';
+      void row.offsetWidth;
+      row.style.animation = 'shake 0.4s ease';
+      document.getElementById('lock-pw').value = '';
+      setTimeout(() => err.textContent = '', 2500);
+    }
+  };
+
+  let unsubscribe = null;
+
+  function showList() {
+    document.getElementById('lock-overlay').style.display = 'none';
+    document.getElementById('list-body').style.display = 'block';
+    document.getElementById('export-bar').style.display = 'flex';
+    document.getElementById('lock-again-btn').style.display = 'block';
+    // Real-time listener
+    const q = query(col, orderBy("ts", "desc"));
+    unsubscribe = onSnapshot(q, snap => {
+      participants = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderList();
+      document.getElementById('count-badge').textContent = participants.length + ' ယောက်';
+    });
+  }
+
+  window.lockList = function() {
+    sessionStorage.removeItem(SESSION_KEY);
+    if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+    document.getElementById('lock-overlay').style.display = 'block';
+    document.getElementById('list-body').style.display = 'none';
+    document.getElementById('export-bar').style.display = 'none';
+    document.getElementById('lock-again-btn').style.display = 'none';
+    document.getElementById('lock-pw').value = '';
+    document.getElementById('lock-error').textContent = '';
+    refreshCount();
+  };
+
+  if (sessionStorage.getItem(SESSION_KEY) === '1') showList();
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ── ADD ──
+  let participants = [];
+
+  window.addParticipant = async function() {
+    const name      = document.getElementById('inp-name').value.trim();
+    const age       = document.getElementById('inp-age').value.trim();
+    const prefix    = document.getElementById('inp-prefix').value;
+    const phone     = document.getElementById('inp-phone').value.trim();
+    const condition = document.getElementById('inp-condition').value.trim();
+    const job       = document.getElementById('inp-job').value.trim();
+    const purpose   = document.getElementById('inp-purpose').value.trim();
+    const note      = document.getElementById('inp-note').value.trim();
+
+    if (!name||!age||!phone||!job||!purpose) {
+      showToast('⚠ ကြယ်ပွင့်ပါသောနေရာများ ဖြည့်ပေးပါ'); return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>သိမ်းဆည်းနေသည်...';
+
+    try {
+      await addDoc(col, {
+        name, age, prefix, phone,
+        condition: condition || '—',
+        job, purpose, note,
+        time: new Date().toLocaleString('en-GB'),
+        ts: Date.now()
+      });
+
+      ['inp-name','inp-age','inp-phone','inp-condition','inp-job','inp-purpose','inp-note']
+        .forEach(id => document.getElementById(id).value = '');
+      document.getElementById('inp-prefix').value = '+95';
+
+      const banner = document.getElementById('success-banner');
+      banner.style.display = 'block';
+      banner.textContent = `✓ ${name} — စာရင်းသွင်းပြီးပါပြီ။ ကျေးဇူးတင်ပါသည်!`;
+      setTimeout(() => banner.style.display = 'none', 4000);
+      refreshCount();
+    } catch(e) {
+      showToast('⚠ Error: ' + e.message);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '+ စာရင်းသွင်းမည်';
+  };
+
+  // ── RENDER ──
+  function getInitials(n) { return n.trim().charAt(0).toUpperCase(); }
+
+  function renderList() {
+    const body = document.getElementById('list-body');
+    if (!participants.length) {
+      body.innerHTML = '<div class="empty-state"><div class="empty-icon">○</div><div class="empty-text">No participants yet</div></div>';
+      return;
+    }
+    body.innerHTML = participants.map((p, i) => `
+      <div class="participant" onclick="showDetail('${p.id}')">
+        <div class="p-top">
+          <div class="p-left">
+            <div class="p-avatar">${getInitials(p.name)}</div>
+            <div><div class="p-name">${p.name}</div><div class="p-age">${p.age} နှစ်</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="p-num">#${String(participants.length - i).padStart(3,'0')}</div>
+            <button class="del-btn" onclick="event.stopPropagation();deleteP('${p.id}')">✕</button>
+          </div>
+        </div>
+        <div class="p-tags">
+          <span class="tag tag-job">${p.job}</span>
+          <span class="tag tag-purpose">${p.purpose}</span>
+        </div>
+        ${p.note && p.note !== '—' ? `<div class="p-note">${p.note}</div>` : ''}
+      </div>`).join('');
+  }
+
+  // ── DELETE ──
+  window.deleteP = async function(id) {
+    if (!confirm('ဖျက်မှာသေချာပါသလား?')) return;
+    try {
+      await deleteDoc(doc(db, "participants", id));
+      showToast('✕ ဖျက်ပြီးပါပြီ');
+    } catch(e) { showToast('⚠ ' + e.message); }
+  };
+
+  // ── DETAIL MODAL ──
+  window.showDetail = function(id) {
+    const p = participants.find(x => x.id === id); if (!p) return;
+    document.getElementById('m-avatar').textContent = getInitials(p.name);
+    document.getElementById('m-name').textContent = p.name;
+    document.getElementById('m-num').textContent = `${p.prefix} ${p.phone}  ·  ${p.time}`;
+    document.getElementById('m-rows').innerHTML = `
+      <div class="modal-row"><div class="modal-label">အသက်</div><div class="modal-value">${p.age} နှစ်</div></div>
+      <div class="modal-row"><div class="modal-label">ဖုန်း</div><div class="modal-value" style="font-family:monospace">${p.prefix} ${p.phone}</div></div>
+      <div class="modal-row"><div class="modal-label">ဝါဒနာ</div><div class="modal-value">${p.condition}</div></div>
+      <div class="modal-row"><div class="modal-label">လုပ်ငန်း</div><div class="modal-value">${p.job}</div></div>
+      <div class="modal-row"><div class="modal-label">ရည်ရွယ်ချက်</div><div class="modal-value">${p.purpose}</div></div>
+      ${p.note && p.note !== '—' ? `<div class="modal-row"><div class="modal-label">မှတ်ချက်</div><div class="modal-value">${p.note}</div></div>` : ''}
+      <div class="modal-row"><div class="modal-label">ဝင်ချိန်</div><div class="modal-value" style="font-size:12px;color:var(--muted)">${p.time}</div></div>`;
+    document.getElementById('modal-overlay').classList.add('open');
+  };
+
+  window.closeModal = function(e) { if(e.target===document.getElementById('modal-overlay')) closeModalDirect(); };
+  window.closeModalDirect = function() { document.getElementById('modal-overlay').classList.remove('open'); };
+
+  // ── EXPORT ──
+  window.exportCSV = function() {
+    if (!participants.length) { showToast('⚠ Data မရှိသေး'); return; }
+    const h = ['No','Name','Age','Phone','Condition','Job','Purpose','Note','Time'];
+    const rows = participants.map((p,i) => [participants.length-i, p.name, p.age, `${p.prefix}${p.phone}`, p.condition, p.job, p.purpose, p.note||'—', p.time]);
+    const csv = [h,...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'}));
+    a.download = `meet-participants-${Date.now()}.csv`; a.click();
+    showToast('✓ CSV ထုတ်ပြီးပါပြီ');
+  };
+
+  window.copyAll = function() {
+    if (!participants.length) { showToast('⚠ Data မရှိသေး'); return; }
+    const lines = participants.map((p,i) => `[${participants.length-i}] ${p.name} (${p.age}နှစ်) | ${p.prefix}${p.phone} | ${p.job} | ${p.purpose}`).join('\n');
+    navigator.clipboard.writeText(lines).then(() => showToast('✓ Clipboard သို့ ကူးပြီးပါပြီ'));
+  };
+
+  window.clearAll = async function() {
+    if (!participants.length) return;
+    if (!confirm('စာရင်းအားလုံး ဖျက်မှာသေချာပါသလား?')) return;
+    try {
+      const snap = await getDocs(col);
+      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, "participants", d.id))));
+      showToast('✕ Clear ပြီးပါပြီ');
+    } catch(e) { showToast('⚠ ' + e.message); }
+  };
+</script>
+</body>
+</html>
