@@ -201,21 +201,21 @@
         <div class="eib-icon">📍</div>
         <div>
           <div class="eib-label">Location</div>
-          <div class="eib-value">Rangoona<br><span style="font-size:12px;color:var(--muted);font-weight:400">Thai & Burmese Food And Beverage</span></div>
+          <div class="eib-value">Still deciding<br><span style="font-size:12px;color:var(--muted);font-weight:400">Venue to be announced</span></div>
         </div>
       </div>
       <div class="eib-item">
         <div class="eib-icon">📅</div>
         <div>
           <div class="eib-label">Date</div>
-          <div class="eib-value"><span class="highlight-gold">07 June 2026</span><br><span style="font-size:12px;color:var(--muted);font-weight:400">Sunday</span></div>
+          <div class="eib-value"><span class="highlight-gold">21 June 2026</span><br><span style="font-size:12px;color:var(--muted);font-weight:400">Sunday</span></div>
         </div>
       </div>
       <div class="eib-item">
         <div class="eib-icon">🕔</div>
         <div>
           <div class="eib-label">Time</div>
-          <div class="eib-value"><span class="highlight">5:00 PM</span><span style="color:var(--muted);font-weight:400"> — </span><span class="highlight">9:30 PM</span></div>
+          <div class="eib-value"><span class="highlight">4:00 PM</span><span style="color:var(--muted);font-weight:400"> — </span><span class="highlight">7:00 PM</span></div>
         </div>
       </div>
     </div>
@@ -239,14 +239,6 @@
       <div class="field">
         <label>အသက် <span class="req">*</span></label>
         <input type="number" id="inp-age" placeholder="နှစ်" min="10" max="99">
-      </div>
-      <div class="field">
-        <label>ကျား / မ <span class="req">*</span></label>
-        <select id="inp-gender">
-          <option value="" disabled selected>ရွေးချယ်ပါ</option>
-          <option value="Male (ကျား)">Male (ကျား)</option>
-          <option value="Female (မ)">Female (မ)</option>
-        </select>
       </div>
       <div class="field">
         <label>ဖုန်းနံပါတ် <span class="req">*</span></label>
@@ -406,7 +398,6 @@
   window.addParticipant = async function() {
     const name      = document.getElementById('inp-name').value.trim();
     const age       = document.getElementById('inp-age').value.trim();
-    const gender    = document.getElementById('inp-gender').value;
     const prefix    = document.getElementById('inp-prefix').value;
     const phone     = document.getElementById('inp-phone').value.trim();
     const condition = document.getElementById('inp-condition').value.trim();
@@ -414,7 +405,7 @@
     const purpose   = document.getElementById('inp-purpose').value.trim();
     const note      = document.getElementById('inp-note').value.trim();
 
-    if (!name||!age||!gender||!phone||!job||!purpose) {
+    if (!name||!age||!phone||!job||!purpose) {
       showToast('⚠ ကြယ်ပွင့်ပါသောနေရာများ ဖြည့်ပေးပါ'); return;
     }
 
@@ -424,7 +415,7 @@
 
     try {
       await addDoc(col, {
-        name, age, gender, prefix, phone,
+        name, age, prefix, phone,
         condition: condition || '—',
         job, purpose, note,
         time: new Date().toLocaleString('en-GB'),
@@ -433,7 +424,6 @@
       ['inp-name','inp-age','inp-phone','inp-condition','inp-job','inp-purpose','inp-note']
         .forEach(id => document.getElementById(id).value = '');
       document.getElementById('inp-prefix').value = '+95';
-      document.getElementById('inp-gender').value = '';
       const banner = document.getElementById('success-banner');
       banner.style.display = 'block';
       banner.textContent = `✓ ${name} — စာရင်းသွင်းပြီးပါပြီ။ ကျေးဇူးတင်ပါသည်!`;
@@ -459,7 +449,7 @@
         <div class="p-top">
           <div class="p-left">
             <div class="p-avatar">${getInitials(p.name)}</div>
-            <div><div class="p-name">${p.name}</div><div class="p-age">${p.age} နှစ် • ${p.gender || '—'}</div></div>
+            <div><div class="p-name">${p.name}</div><div class="p-age">${p.age} နှစ်</div></div>
           </div>
           <div style="display:flex;align-items:center;gap:8px">
             <div class="p-num">#${String(participants.length-i).padStart(3,'0')}</div>
@@ -489,7 +479,6 @@
     document.getElementById('m-num').textContent = `${p.prefix} ${p.phone}  ·  ${p.time}`;
     document.getElementById('m-rows').innerHTML = `
       <div class="modal-row"><div class="modal-label">အသက်</div><div class="modal-value">${p.age} နှစ်</div></div>
-      <div class="modal-row"><div class="modal-label">ကျား / မ</div><div class="modal-value">${p.gender || '—'}</div></div>
       <div class="modal-row"><div class="modal-label">ဖုန်း</div><div class="modal-value" style="font-family:monospace">${p.prefix} ${p.phone}</div></div>
       <div class="modal-row"><div class="modal-label">ဝါဒနာ</div><div class="modal-value">${p.condition}</div></div>
       <div class="modal-row"><div class="modal-label">လုပ်ငန်း</div><div class="modal-value">${p.job}</div></div>
@@ -504,8 +493,8 @@
 
   window.exportCSV = function() {
     if(!participants.length){showToast('⚠ Data မရှိသေး');return;}
-    const h=['No','Name','Age','Gender','Phone','Condition','Job','Purpose','Note','Time'];
-    const rows=participants.map((p,i)=>[participants.length-i,p.name,p.age,p.gender||'—',`${p.prefix}${p.phone}`,p.condition,p.job,p.purpose,p.note||'—',p.time]);
+    const h=['No','Name','Age','Phone','Condition','Job','Purpose','Note','Time'];
+    const rows=participants.map((p,i)=>[participants.length-i,p.name,p.age,`${p.prefix}${p.phone}`,p.condition,p.job,p.purpose,p.note||'—',p.time]);
     const csv=[h,...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));
@@ -515,7 +504,7 @@
 
   window.copyAll = function() {
     if(!participants.length){showToast('⚠ Data မရှိသေး');return;}
-    const lines=participants.map((p,i)=>`[${participants.length-i}] ${p.name} (${p.age}နှစ်, ${p.gender||'—'}) | ${p.prefix}${p.phone} | ${p.job} | ${p.purpose}`).join('\n');
+    const lines=participants.map((p,i)=>`[${participants.length-i}] ${p.name} (${p.age}နှစ်) | ${p.prefix}${p.phone} | ${p.job} | ${p.purpose}`).join('\n');
     navigator.clipboard.writeText(lines).then(()=>showToast('✓ Clipboard သို့ ကူးပြီးပါပြီ'));
   };
 
