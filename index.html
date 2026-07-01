@@ -3,272 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meet Event - စာရင်းသွင်းရန်</title>
+<title>Networking Event - အုပ်စုခွဲခြင်း စာရင်းသွင်းရန်</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#0a0f1e; --card:#111827; --border:#1e2d45;
-    --accent:#00d4ff; --accent2:#7c3aed; --text:#e2e8f0;
-    --muted:#64748b; --success:#10b981; --danger:#ef4444; --gold:#f59e0b;
+    --bg:#161a1f; --card:#1d2229; --border:#2a3038;
+    --accent:#7fa88f; --accent2:#a9b98e; --text:#e6e8eb;
+    --muted:#8a919c; --success:#7fb685; --danger:#c97f7f; --gold:#c9ab7f;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Noto Sans Myanmar',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-  body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(0,212,255,0.04) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(124,58,237,0.04) 0%,transparent 50%);pointer-events:none;z-index:0;}
-  .container{max-width:960px;margin:0 auto;padding:32px 20px;position:relative;z-index:1;}
-
-  /* ── EVENT INFO BANNER ── */
-  .event-info-banner {
-    background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(124,58,237,0.12) 100%);
-    border: 1px solid rgba(0,212,255,0.3);
-    border-radius: 20px;
-    padding: 28px 32px;
-    margin-bottom: 36px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.6s ease both;
-  }
-  .event-info-banner::before {
-    content: '';
-    position: absolute; top:0; left:0; right:0; height:3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--gold));
-  }
-  .event-info-banner::after {
-    content: '';
-    position: absolute; top:-60px; right:-60px;
-    width:200px; height:200px;
-    background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%);
-    pointer-events:none;
-  }
-  .eib-title {
-    font-size: 11px;
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .eib-title::before { content:''; display:inline-block; width:6px; height:6px; background:var(--accent); border-radius:50%; animation:pulse 1.5s infinite; }
-  .eib-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  @media(max-width:600px){ .eib-grid{ grid-template-columns:1fr; gap:12px; } }
-  .eib-item {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 12px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .eib-icon {
-    font-size: 22px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .eib-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 4px;
-  }
-  .eib-value {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.4;
-  }
-  .eib-value .highlight {
-    color: var(--accent);
-  }
-  .eib-value .highlight-gold {
-    color: var(--gold);
-  }
+  body{font-family:'Noto Sans Myanmar',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  .container{max-width:960px;margin:0 auto;padding:40px 20px;}
 
   /* ── HEADER ── */
   .header{text-align:center;margin-bottom:36px;}
-  .event-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:100px;padding:6px 16px;font-size:12px;color:var(--accent);font-family:'IBM Plex Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;animation:fadeDown 0.6s ease;}
-  .event-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 1.5s infinite;}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
-  h1{font-size:clamp(28px,5vw,44px);font-weight:700;background:linear-gradient(135deg,#fff 0%,var(--accent) 50%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3;margin-bottom:12px;animation:fadeDown 0.6s ease 0.1s both;}
-  .subtitle{color:var(--muted);font-size:14px;animation:fadeDown 0.6s ease 0.2s both;}
-  @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .event-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(127,168,143,0.08);border:1px solid rgba(127,168,143,0.25);border-radius:100px;padding:6px 16px;font-size:12px;color:var(--accent);font-family:'IBM Plex Mono',monospace;letter-spacing:0.06em;margin-bottom:18px;}
+  h1{font-size:clamp(24px,4.5vw,36px);font-weight:700;color:var(--text);line-height:1.4;margin-bottom:10px;}
+  .subtitle{color:var(--muted);font-size:14px;line-height:1.7;max-width:520px;margin:0 auto;}
 
   .layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
   @media(max-width:680px){.layout{grid-template-columns:1fr}}
 
-  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;animation:fadeUp 0.6s ease 0.3s both;position:relative;overflow:hidden;}
-  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
-  .card-title{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:8px;margin-bottom:24px;text-transform:uppercase;letter-spacing:0.06em;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;}
+  .card-title{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:8px;margin-bottom:22px;text-transform:uppercase;letter-spacing:0.05em;}
   .field{margin-bottom:18px;}
-  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-family:'IBM Plex Mono',monospace;letter-spacing:0.05em;}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-family:'IBM Plex Mono',monospace;letter-spacing:0.03em;}
   label span.req{color:var(--accent);margin-left:2px;}
-  input,textarea,select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'Noto Sans Myanmar',sans-serif;font-size:14px;transition:border-color 0.2s,background 0.2s;outline:none;resize:none;}
-  input:focus,textarea:focus,select:focus{border-color:var(--accent);background:rgba(0,212,255,0.04);}
-  select option{background:#1a2233;color:var(--text);}
-  textarea{height:80px;}
-  .phone-row{display:flex;gap:8px;}
-  .phone-prefix{width:80px;flex-shrink:0;text-align:center;color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:13px;}
-  .submit-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:white;font-family:'Noto Sans Myanmar',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity 0.2s,transform 0.15s;margin-top:8px;}
-  .submit-btn:hover{opacity:.9;transform:translateY(-1px);}
-  .submit-btn:active{transform:translateY(0);}
-  .submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
-  .success-banner{display:none;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:14px 18px;margin-top:16px;font-size:14px;color:#34d399;text-align:center;line-height:1.6;}
+  input,textarea,select{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'Noto Sans Myanmar',sans-serif;font-size:14px;transition:border-color 0.2s;outline:none;resize:none;}
+  input:focus,textarea:focus,select:focus{border-color:var(--accent);}
+  select option{background:#232a32;color:var(--text);}
 
-  .list-panel{animation:fadeUp 0.6s ease 0.45s both;}
-  .list-header{background:var(--card);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
-  .list-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent2),var(--accent));}
-  .list-title{font-family:'IBM Plex Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent);}
-  .count-badge{background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.3);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:3px 10px;border-radius:100px;}
+  .radio-row{display:flex;gap:10px;}
+  .radio-opt{flex:1;position:relative;}
+  .radio-opt input{position:absolute;opacity:0;width:0;height:0;}
+  .radio-opt label{display:flex;align-items:center;justify-content:center;padding:11px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans Myanmar',sans-serif;font-size:14px;color:var(--muted);cursor:pointer;margin:0;transition:all 0.15s;}
+  .radio-opt input:checked + label{border-color:var(--accent);color:var(--accent);background:rgba(127,168,143,0.08);}
 
-  .lock-overlay{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 16px 16px;padding:40px 24px;text-align:center;}
-  .lock-icon{font-size:32px;margin-bottom:16px;}
-  .lock-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+  .submit-btn{width:100%;padding:13px;background:var(--accent);border:none;border-radius:9px;color:#161a1f;font-family:'Noto Sans Myanmar',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity 0.2s;margin-top:8px;}
+  .submit-btn:hover{opacity:.88;}
+  .submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
+  .success-banner{display:none;background:rgba(127,182,133,0.1);border:1px solid rgba(127,182,133,0.3);border-radius:9px;padding:14px 18px;margin-top:16px;font-size:14px;color:var(--success);text-align:center;line-height:1.6;}
+
+  .list-header{background:var(--card);border:1px solid var(--border);border-radius:14px 14px 0 0;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+  .list-title{font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--accent);}
+  .count-badge{background:rgba(127,168,143,0.1);border:1px solid rgba(127,168,143,0.25);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:3px 10px;border-radius:100px;}
+
+  .lock-overlay{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;padding:40px 24px;text-align:center;}
+  .lock-icon{font-size:28px;margin-bottom:14px;opacity:0.7;}
+  .lock-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;}
   .lock-input-row{display:flex;gap:8px;max-width:280px;margin:0 auto;}
-  .lock-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:0.08em;outline:none;transition:border-color 0.2s;}
+  .lock-input{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:14px;outline:none;}
   .lock-input:focus{border-color:var(--accent);}
-  .lock-btn{padding:10px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;color:white;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;white-space:nowrap;}
+  .lock-btn{padding:10px 16px;background:var(--accent);border:none;border-radius:8px;color:#161a1f;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;white-space:nowrap;font-weight:600;}
   .lock-error{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--danger);margin-top:10px;min-height:16px;}
   @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 
-  .list-body{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 16px 16px;max-height:420px;overflow-y:auto;display:none;}
+  .list-body{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;max-height:440px;overflow-y:auto;display:none;}
   .list-body::-webkit-scrollbar{width:4px;}
   .list-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
   .empty-state{padding:48px 24px;text-align:center;color:var(--muted);}
-  .empty-icon{font-size:36px;margin-bottom:12px;opacity:0.3;}
+  .empty-icon{font-size:32px;margin-bottom:12px;opacity:0.3;}
   .empty-text{font-size:13px;font-family:'IBM Plex Mono',monospace;}
 
-  .participant{padding:16px 20px;border-bottom:1px solid rgba(30,45,69,0.7);transition:background 0.2s;cursor:pointer;}
+  .participant{padding:16px 20px;border-bottom:1px solid var(--border);transition:background 0.2s;}
   .participant:last-child{border-bottom:none;}
-  .participant:hover{background:rgba(255,255,255,0.03);}
+  .participant:hover{background:rgba(255,255,255,0.02);}
   .p-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
   .p-left{display:flex;align-items:center;gap:10px;}
-  .p-avatar{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;font-family:'IBM Plex Mono',monospace;}
+  .p-avatar{width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#161a1f;flex-shrink:0;font-family:'IBM Plex Mono',monospace;}
   .p-name{font-size:14px;font-weight:600;color:var(--text);}
-  .p-age{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;margin-top:1px;}
-  .p-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);opacity:0.7;}
-  .p-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;}
-  .tag{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace;}
-  .tag-job{background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:#a78bfa;}
-  .tag-purpose{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);color:#34d399;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .del-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 6px;border-radius:4px;font-size:14px;transition:color 0.2s,background 0.2s;}
-  .del-btn:hover{color:var(--danger);background:rgba(239,68,68,0.1);}
-  .p-note{font-size:11px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid rgba(30,45,69,0.5);font-style:italic;}
+  .p-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);}
+  .p-tags{display:flex;gap:6px;flex-wrap:wrap;}
+  .tag{font-size:10px;padding:3px 9px;border-radius:5px;font-family:'IBM Plex Mono',monospace;}
+  .tag-topic{background:rgba(169,185,142,0.12);border:1px solid rgba(169,185,142,0.3);color:var(--accent2);}
+  .tag-fac-yes{background:rgba(127,182,133,0.12);border:1px solid rgba(127,182,133,0.3);color:var(--success);}
+  .tag-fac-no{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted);}
+  .del-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 6px;border-radius:4px;font-size:14px;}
+  .del-btn:hover{color:var(--danger);background:rgba(201,127,127,0.1);}
+  .p-note{font-size:11px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-style:italic;}
 
   .export-bar{margin-top:12px;display:none;gap:8px;}
-  .export-btn{flex:1;padding:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.05em;}
-  .export-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,0.05);}
-  .lock-again-btn{margin-top:8px;width:100%;padding:8px;background:none;border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:rgba(239,68,68,0.5);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.05em;display:none;}
+  .export-btn{flex:1;padding:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.04em;}
+  .export-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .lock-again-btn{margin-top:8px;width:100%;padding:8px;background:none;border:1px solid rgba(201,127,127,0.2);border-radius:8px;color:rgba(201,127,127,0.6);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;display:none;text-transform:uppercase;letter-spacing:0.04em;}
   .lock-again-btn:hover{border-color:var(--danger);color:var(--danger);}
 
-  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(0,0,0,0.2);border-top-color:#161a1f;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
   @keyframes spin{to{transform:rotate(360deg)}}
 
-  .toast{position:fixed;bottom:24px;right:24px;background:var(--success);color:white;padding:12px 20px;border-radius:10px;font-size:13px;font-family:'IBM Plex Mono',monospace;transform:translateY(80px);opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--success);color:#161a1f;padding:12px 20px;border-radius:9px;font-size:13px;font-family:'IBM Plex Mono',monospace;transform:translateY(80px);opacity:0;transition:all 0.3s ease;z-index:999;pointer-events:none;font-weight:600;}
   .toast.show{transform:translateY(0);opacity:1;}
-
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
-  .modal-overlay.open{opacity:1;pointer-events:all;}
-  .modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;max-width:420px;width:100%;position:relative;transform:scale(0.9);transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
-  .modal-overlay.open .modal{transform:scale(1);}
-  .modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:20px 20px 0 0;}
-  .modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:none;color:var(--muted);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-  .modal-close:hover{color:var(--text);background:rgba(255,255,255,0.1);}
-  .modal-avatar{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:white;font-family:'IBM Plex Mono',monospace;margin-bottom:16px;}
-  .modal-name{font-size:22px;font-weight:700;margin-bottom:4px;}
-  .modal-row{display:flex;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start;gap:12px;}
-  .modal-row:last-child{border-bottom:none;}
-  .modal-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;width:90px;flex-shrink:0;padding-top:1px;}
-  .modal-value{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- ── EVENT INFO BANNER ── -->
-  <div class="event-info-banner">
-    <div class="eib-title">Event Details</div>
-    <div class="eib-grid">
-      <div class="eib-item">
-        <div class="eib-icon">📍</div>
-        <div>
-          <div class="eib-label">Location</div>
-          <div class="eib-value">ThaiWan<br><span style="font-size:12px;color:var(--muted);font-weight:400">Thai Coffee & Tea Social Space</span></div>
-        </div>
-      </div>
-      <div class="eib-item">
-        <div class="eib-icon">📅</div>
-        <div>
-          <div class="eib-label">Date</div>
-          <div class="eib-value"><span class="highlight-gold">21 June 2026</span><br><span style="font-size:12px;color:var(--muted);font-weight:400">Sunday</span></div>
-        </div>
-      </div>
-      <div class="eib-item">
-        <div class="eib-icon">🕔</div>
-        <div>
-          <div class="eib-label">Time</div>
-          <div class="eib-value"><span class="highlight">4:00 PM</span><span style="color:var(--muted);font-weight:400"> — </span><span class="highlight">7:00 PM</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── HEADER ── -->
   <div class="header">
-    <div class="event-badge">✦ Live Registration</div>
-    <h1>Meet Event<br>စာရင်းသွင်းရန်</h1>
-    <div class="subtitle">အောက်ပါ ပုံစံကို ဖြည့်စွက်ပြီး စာရင်းသွင်းပါ</div>
+    <div class="event-badge">✦ Group Sign-up</div>
+    <h1>Networking Event<br>အုပ်စုခွဲခြင်း (Topic Groups)</h1>
+    <div class="subtitle">ကိုယ့်နယ်ပယ်နဲ့ အကိုက်ညီဆုံး Topic Group ထဲရောက်ဖို့ အောက်ပါ ပုံစံလေးကို ဖြည့်ပေးပါ</div>
   </div>
 
   <div class="layout">
     <!-- PUBLIC FORM -->
     <div class="card">
-      <div class="card-title"><span>✦</span> Registration Form</div>
+      <div class="card-title"><span>✦</span> Sign-up Form</div>
       <div class="field">
-        <label>နာမည် <span class="req">*</span></label>
-        <input type="text" id="inp-name" placeholder="အမည်အပြည့်အစုံ">
+        <label>နာမည် (သို့) လုပ်ငန်းအမည် <span class="req">*</span></label>
+        <input type="text" id="inp-name" placeholder="အမည် (သို့) Business Name">
       </div>
       <div class="field">
-        <label>အသက် <span class="req">*</span></label>
-        <input type="number" id="inp-age" placeholder="နှစ်" min="10" max="99">
+        <label>ဆွေးနွေး/လေ့လာချင်တဲ့ Topic <span class="req">*</span></label>
+        <select id="inp-topic">
+          <option value="">-- ရွေးချယ်ပါ --</option>
+          <option>Digital Marketing</option>
+          <option>E-commerce</option>
+          <option>AI Tools</option>
+          <option>Finance / Investment</option>
+          <option>Remittance & Money Transfer</option>
+          <option>Property</option>
+          <option>Community Building</option>
+          <option value="__other__">အခြား (Other)</option>
+        </select>
+      </div>
+      <div class="field" id="topic-other-field" style="display:none">
+        <label>Topic အသေးစိတ်</label>
+        <input type="text" id="inp-topic-other" placeholder="Topic အမည် ရေးပါ">
       </div>
       <div class="field">
-        <label>ဖုန်းနံပါတ် <span class="req">*</span></label>
-        <div class="phone-row">
-          <select id="inp-prefix" class="phone-prefix">
-            <option value="+95">🇲🇲 +95</option>
-            <option value="+66">🇹🇭 +66</option>
-            <option value="+81">🇯🇵 +81</option>
-            <option value="+60">🇲🇾 +60</option>
-            <option value="+65">🇸🇬 +65</option>
-            <option value="+1">🇺🇸 +1</option>
-          </select>
-          <input type="tel" id="inp-phone" placeholder="09xxxxxxxxx" style="flex:1">
+        <label>Facilitator အနေနဲ့ တာဝန်ယူပေးနိုင်မလား? <span class="req">*</span></label>
+        <div class="radio-row">
+          <div class="radio-opt">
+            <input type="radio" name="facilitator" id="fac-yes" value="Yes">
+            <label for="fac-yes">Yes</label>
+          </div>
+          <div class="radio-opt">
+            <input type="radio" name="facilitator" id="fac-no" value="No">
+            <label for="fac-no">No</label>
+          </div>
         </div>
       </div>
       <div class="field">
-        <label>ဝါဒနာ / ကျန်းမာရေး အခြေအနေ</label>
-        <input type="text" id="inp-condition" placeholder="မရှိပါက ဗလာထားနိုင်">
-      </div>
-      <div class="field">
-        <label>လက်ရှိ လုပ်ကိုင်နေတာ <span class="req">*</span></label>
-        <input type="text" id="inp-job" placeholder="ဥပမာ - ကုန်သည် / ကျောင်းဆရာ / လုပ်သား">
-      </div>
-      <div class="field">
-        <label>Join ရခြင်းရဲ့ ရည်ရွယ်ချက် <span class="req">*</span></label>
-        <textarea id="inp-purpose" placeholder="ဘာကြောင့် ပါဝင်ချင်သည်ဆိုသည်ကို ရှင်းပြပါ..."></textarea>
-      </div>
-      <div class="field">
         <label>မှတ်ချက် (ထပ်ဆောင်း)</label>
-        <input type="text" id="inp-note" placeholder="အခြားပြောချင်သည့် အချက်များ...">
+        <input type="text" id="inp-note" placeholder="အခြားပြောချင်သည့် အချက်များ... (ရှိလျှင်)">
       </div>
       <button class="submit-btn" id="submit-btn" onclick="addParticipant()">+ စာရင်းသွင်းမည်</button>
       <div class="success-banner" id="success-banner"></div>
@@ -277,7 +154,7 @@
     <!-- ADMIN LIST -->
     <div class="list-panel">
       <div class="list-header">
-        <div class="list-title">✦ Participants</div>
+        <div class="list-title">✦ Sign-ups</div>
         <div class="count-badge" id="count-badge">— ယောက်</div>
       </div>
       <div class="lock-overlay" id="lock-overlay">
@@ -293,7 +170,7 @@
       <div class="export-bar" id="export-bar">
         <button class="export-btn" onclick="exportCSV()">⬇ CSV</button>
         <button class="export-btn" onclick="copyAll()">⎘ Copy</button>
-        <button class="export-btn" onclick="clearAll()" style="color:#ef444488;border-color:#ef444422">✕ Clear</button>
+        <button class="export-btn" onclick="clearAll()" style="color:#c97f7f88;border-color:#c97f7f22">✕ Clear</button>
       </div>
       <button class="lock-again-btn" id="lock-again-btn" onclick="lockList()">🔒 Lock</button>
     </div>
@@ -301,16 +178,6 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect()">✕</button>
-    <div class="modal-avatar" id="m-avatar"></div>
-    <div class="modal-name" id="m-name"></div>
-    <div class="modal-num" id="m-num"></div>
-    <br>
-    <div id="m-rows"></div>
-  </div>
-</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -328,10 +195,10 @@
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
-  const col = collection(db, "participants");
+  const col = collection(db, "topic_signups");
 
   const PASS = 'Sitnaing2026';
-  const SESSION_KEY = 'meet_unlocked';
+  const SESSION_KEY = 'topic_signup_unlocked';
 
   async function refreshCount() {
     try {
@@ -340,6 +207,10 @@
     } catch(e) {}
   }
   refreshCount();
+
+  document.getElementById('inp-topic').addEventListener('change', function() {
+    document.getElementById('topic-other-field').style.display = this.value === '__other__' ? 'block' : 'none';
+  });
 
   window.unlock = function() {
     const val = document.getElementById('lock-pw').value;
@@ -396,16 +267,15 @@
   let participants = [];
 
   window.addParticipant = async function() {
-    const name      = document.getElementById('inp-name').value.trim();
-    const age       = document.getElementById('inp-age').value.trim();
-    const prefix    = document.getElementById('inp-prefix').value;
-    const phone     = document.getElementById('inp-phone').value.trim();
-    const condition = document.getElementById('inp-condition').value.trim();
-    const job       = document.getElementById('inp-job').value.trim();
-    const purpose   = document.getElementById('inp-purpose').value.trim();
-    const note      = document.getElementById('inp-note').value.trim();
+    const name = document.getElementById('inp-name').value.trim();
+    const topicSel = document.getElementById('inp-topic').value;
+    const topicOther = document.getElementById('inp-topic-other').value.trim();
+    const topic = topicSel === '__other__' ? topicOther : topicSel;
+    const facEl = document.querySelector('input[name="facilitator"]:checked');
+    const facilitator = facEl ? facEl.value : '';
+    const note = document.getElementById('inp-note').value.trim();
 
-    if (!name||!age||!phone||!job||!purpose) {
+    if (!name || !topic || !facilitator) {
       showToast('⚠ ကြယ်ပွင့်ပါသောနေရာများ ဖြည့်ပေးပါ'); return;
     }
 
@@ -415,15 +285,17 @@
 
     try {
       await addDoc(col, {
-        name, age, prefix, phone,
-        condition: condition || '—',
-        job, purpose, note,
+        name, topic, facilitator,
+        note: note || '—',
         time: new Date().toLocaleString('en-GB'),
         ts: Date.now()
       });
-      ['inp-name','inp-age','inp-phone','inp-condition','inp-job','inp-purpose','inp-note']
-        .forEach(id => document.getElementById(id).value = '');
-      document.getElementById('inp-prefix').value = '+95';
+      document.getElementById('inp-name').value = '';
+      document.getElementById('inp-topic').value = '';
+      document.getElementById('inp-topic-other').value = '';
+      document.getElementById('topic-other-field').style.display = 'none';
+      document.getElementById('inp-note').value = '';
+      if (facEl) facEl.checked = false;
       const banner = document.getElementById('success-banner');
       banner.style.display = 'block';
       banner.textContent = `✓ ${name} — စာရင်းသွင်းပြီးပါပြီ။ ကျေးဇူးတင်ပါသည်!`;
@@ -441,70 +313,52 @@
   function renderList() {
     const body = document.getElementById('list-body');
     if (!participants.length) {
-      body.innerHTML = '<div class="empty-state"><div class="empty-icon">○</div><div class="empty-text">No participants yet</div></div>';
+      body.innerHTML = '<div class="empty-state"><div class="empty-icon">○</div><div class="empty-text">No sign-ups yet</div></div>';
       return;
     }
     body.innerHTML = participants.map((p,i) => `
-      <div class="participant" onclick="showDetail('${p.id}')">
+      <div class="participant">
         <div class="p-top">
           <div class="p-left">
             <div class="p-avatar">${getInitials(p.name)}</div>
-            <div><div class="p-name">${p.name}</div><div class="p-age">${p.age} နှစ်</div></div>
+            <div class="p-name">${p.name}</div>
           </div>
           <div style="display:flex;align-items:center;gap:8px">
             <div class="p-num">#${String(participants.length-i).padStart(3,'0')}</div>
-            <button class="del-btn" onclick="event.stopPropagation();deleteP('${p.id}')">✕</button>
+            <button class="del-btn" onclick="deleteP('${p.id}')">✕</button>
           </div>
         </div>
         <div class="p-tags">
-          <span class="tag tag-job">${p.job}</span>
-          <span class="tag tag-purpose">${p.purpose}</span>
+          <span class="tag tag-topic">${p.topic}</span>
+          <span class="tag ${p.facilitator==='Yes'?'tag-fac-yes':'tag-fac-no'}">Facilitator: ${p.facilitator}</span>
         </div>
-        ${p.note&&p.note!=='—'?`<div class="p-note">${p.note}</div>`:''}`
+        ${p.note && p.note !== '—' ? `<div class="p-note">${p.note}</div>` : ''}
+      </div>`
     ).join('');
   }
 
   window.deleteP = async function(id) {
     if (!confirm('ဖျက်မှာသေချာပါသလား?')) return;
     try {
-      await deleteDoc(doc(db, "participants", id));
+      await deleteDoc(doc(db, "topic_signups", id));
       showToast('✕ ဖျက်ပြီးပါပြီ');
     } catch(e) { showToast('⚠ ' + e.message); }
   };
 
-  window.showDetail = function(id) {
-    const p = participants.find(x=>x.id===id); if(!p) return;
-    document.getElementById('m-avatar').textContent = getInitials(p.name);
-    document.getElementById('m-name').textContent = p.name;
-    document.getElementById('m-num').textContent = `${p.prefix} ${p.phone}  ·  ${p.time}`;
-    document.getElementById('m-rows').innerHTML = `
-      <div class="modal-row"><div class="modal-label">အသက်</div><div class="modal-value">${p.age} နှစ်</div></div>
-      <div class="modal-row"><div class="modal-label">ဖုန်း</div><div class="modal-value" style="font-family:monospace">${p.prefix} ${p.phone}</div></div>
-      <div class="modal-row"><div class="modal-label">ဝါဒနာ</div><div class="modal-value">${p.condition}</div></div>
-      <div class="modal-row"><div class="modal-label">လုပ်ငန်း</div><div class="modal-value">${p.job}</div></div>
-      <div class="modal-row"><div class="modal-label">ရည်ရွယ်ချက်</div><div class="modal-value">${p.purpose}</div></div>
-      ${p.note&&p.note!=='—'?`<div class="modal-row"><div class="modal-label">မှတ်ချက်</div><div class="modal-value">${p.note}</div></div>`:''}
-      <div class="modal-row"><div class="modal-label">ဝင်ချိန်</div><div class="modal-value" style="font-size:12px;color:var(--muted)">${p.time}</div></div>`;
-    document.getElementById('modal-overlay').classList.add('open');
-  };
-
-  window.closeModal = function(e) { if(e.target===document.getElementById('modal-overlay')) closeModalDirect(); };
-  window.closeModalDirect = function() { document.getElementById('modal-overlay').classList.remove('open'); };
-
   window.exportCSV = function() {
     if(!participants.length){showToast('⚠ Data မရှိသေး');return;}
-    const h=['No','Name','Age','Phone','Condition','Job','Purpose','Note','Time'];
-    const rows=participants.map((p,i)=>[participants.length-i,p.name,p.age,`${p.prefix}${p.phone}`,p.condition,p.job,p.purpose,p.note||'—',p.time]);
+    const h=['No','Name','Topic','Facilitator','Note','Time'];
+    const rows=participants.map((p,i)=>[participants.length-i,p.name,p.topic,p.facilitator,p.note||'—',p.time]);
     const csv=[h,...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));
-    a.download=`meet-participants-${Date.now()}.csv`; a.click();
+    a.download=`topic-signups-${Date.now()}.csv`; a.click();
     showToast('✓ CSV ထုတ်ပြီးပါပြီ');
   };
 
   window.copyAll = function() {
     if(!participants.length){showToast('⚠ Data မရှိသေး');return;}
-    const lines=participants.map((p,i)=>`[${participants.length-i}] ${p.name} (${p.age}နှစ်) | ${p.prefix}${p.phone} | ${p.job} | ${p.purpose}`).join('\n');
+    const lines=participants.map((p,i)=>`[${participants.length-i}] ${p.name} | ${p.topic} | Facilitator: ${p.facilitator}${p.note&&p.note!=='—'?` | Note: ${p.note}`:''}`).join('\n');
     navigator.clipboard.writeText(lines).then(()=>showToast('✓ Clipboard သို့ ကူးပြီးပါပြီ'));
   };
 
@@ -513,7 +367,7 @@
     if(!confirm('စာရင်းအားလုံး ဖျက်မှာသေချာပါသလား?')) return;
     try {
       const snap=await getDocs(col);
-      await Promise.all(snap.docs.map(d=>deleteDoc(doc(db,"participants",d.id))));
+      await Promise.all(snap.docs.map(d=>deleteDoc(doc(db,"topic_signups",d.id))));
       showToast('✕ Clear ပြီးပါပြီ');
     } catch(e){showToast('⚠ '+e.message);}
   };
